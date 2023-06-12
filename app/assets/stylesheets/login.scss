@@ -1,0 +1,30 @@
+body {
+    background-color: #192040;
+    color: #DDDDDD;
+}
+
+.login_wrapper {
+    max-width: 300px;
+    height: 300px;
+
+    position: absolute;
+    margin: auto;
+
+    top: -300px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.login_logo_wrapper {
+    text-align: center;
+    height: 125px;
+}
+
+.login_logo {
+    width: 225px;
+}
+
+.card {
+ background-color: #192040;
+}

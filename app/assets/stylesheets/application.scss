@@ -1,0 +1,86 @@
+$theme-colors: (
+  primary:  #ff6b6b,
+  secondary: #4fcec5,
+  light: #4FCEC5,
+  darkish: #999999,
+  dark: #605e5e,
+  info: #384E77,
+  success: #47C557,
+  warning: #FDA802,
+  danger: #ED3831
+);
+
+@import "bootstrap";
+@import "font-awesome";
+@import 'date_wrapper';
+@import 'datatables/dataTables.bootstrap4';
+@import "bootstrap-datepicker3";
+
+.nav_logo {
+    height: 40px;
+}
+
+.footer_logo {
+    height: 25px;
+}
+
+.body {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 50px;
+}
+
+.scrollbox { 
+  border: 2px solid #ccc; 
+  width: 100%; 
+  height: 100%;
+  max-height: 300px; 
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.slidecontainer {
+  width: 300px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+legend, label:not(.form-check-label) {
+  font-weight:bold
+}
+
+
+.dropdown-menu {
+    width: 300px !important;
+    padding: 10px;
+}
