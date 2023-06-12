@@ -1,0 +1,9 @@
+<% content_for :table_head do %>
+    <th>Disposition</th>
+    <th>Observation</th>
+    <th>Links</th>
+    <th>Reviewer</th>
+    <th>Date</th>
+<% end %>
+
+<%= render 'layouts/crud/index', items: @observations, items_class: Observation %>

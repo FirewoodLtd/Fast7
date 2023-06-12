@@ -1,0 +1,9 @@
+<% content_for :body do %>
+  <%= render 'body' %>   
+<% end %>
+
+<% content_for :subtitle do %>
+    <%=@review_measure.measure.category.path_name %>
+<% end %>
+
+<%= render 'layouts/crud/show', item: @review_measure %>

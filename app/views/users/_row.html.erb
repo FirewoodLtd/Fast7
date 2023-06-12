@@ -1,0 +1,8 @@
+<td>
+<%= link_to 'Impersonate', impersonate_user_path(item), method: :post, :class => 'btn btn-sm btn-outline-warning' if can? :manage, :all %>
+<%= item.name %>
+</td>
+<td><%=item.email%></td>
+<td><%=item.phone%></td>
+<td><%=item.role.name.titleize%></td>
+<td><%=item.is_enabled%></td>

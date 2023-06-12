@@ -1,0 +1,7 @@
+<% content_for :subtitle do %>
+    <%=@finding.review_measure.name unless @finding.review_measure.nil?%>
+<% end %>
+
+<%= render 'layouts/crud/edit',
+item: @finding
+%>

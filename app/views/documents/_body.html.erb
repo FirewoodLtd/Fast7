@@ -1,0 +1,52 @@
+<dl>
+    
+    <dt>Name</dt>
+    <dd><%=@document.name%> </dd>
+    
+    <dt>URL</dt>
+    <dd><%=link_to @document.url, @document.url %></dd>
+</dl>
+
+<hr>
+
+<h4>Observation Links</h4>
+<table class='table table-sm'>
+    <thead>
+        <th></th>
+        <th>Name</th>
+        <th>Disposition</th>
+    </thead>
+    <tbody>
+        <% @document.observations.each do |link| %>
+        <tr>
+            <td width=100px;>
+                <%=link_to 'Show', link, :class => 'btn btn-sm btn-outline-info' %>
+            </td>
+            <td>
+              <%=link.summary %>  
+            </td>
+            <td>
+                <%= link.disposition %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<hr>
+
+<% @unlinked=@document.review.observations.where.not(id: @document.observations.pluck(:id)) %>
+<% if @unlinked.count > 0 %>
+    <%= form_tag observation_links_path, method: :post, :class => 'form-inline' do %>
+        <div class="form-group mb-2">
+           <%= select_tag :observation_id, options_from_collection_for_select(@unlinked, :id, :summary), :class => 'form-control' %>
+           <%= hidden_field_tag :document_id, @document.id %>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+           <%= submit_tag "Link Observation", :class => 'btn btn-primary' %> &nbsp
+           <%= link_to "New Observation", new_observation_path(:document_id => @document.id), :class => 'btn btn-outline-primary' %>
+        </div>
+    <% end %>         
+<% else %>
+    <%= link_to "New Observation", new_observation_path(:document_id => @document.id), :class => 'btn btn-outline-primary' %>
+<% end %>

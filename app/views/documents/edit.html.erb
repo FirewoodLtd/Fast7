@@ -1,0 +1,6 @@
+<% content_for :subtitle do %>
+    <%=@document.document_type.name%>
+<% end %>
+
+<%= render 'layouts/crud/edit',
+item: @document %>

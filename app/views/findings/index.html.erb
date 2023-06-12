@@ -1,0 +1,11 @@
+<% content_for :table_head do %>
+  <th>Finding</th>
+  <th>Measure</th>
+  <th>Status</th>
+  <th>Action Items</th>
+<% end %>
+
+<%= render 'layouts/crud/index',
+items: @findings,
+items_class: Finding
+%>

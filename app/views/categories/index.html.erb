@@ -1,0 +1,11 @@
+<% content_for :table_head do %>
+  <th>Category Name</th>
+  <th>Measures</th>
+<% end %>
+
+<%= render 'layouts/crud/index',
+items: @categories,
+items_class: Category,
+title: 'Frameworks',
+icon: 'folders'
+%>

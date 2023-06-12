@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-md-3" style='height:100px; background-color:#01bede;text-align:center;padding-top:10px;margin:5px;'>
+      <small>Project Value</small>
+      <h2>£<%=number_to_human(@review.project.budget)%></h2>
+    </div>
+    <div class="col-sm-12 col-md-3" style='height:100px; background-color:#eecb31;text-align:center;padding-top:10px;margin:5px;'>
+      <small>Measures Scored</small>
+      <h2><%=@review.total_complete %></h2>      
+    </div>
+    <div class="col-sm-12 col-md-3" style='height:100px; background-color:#c296e5;text-align:center;padding-top:10px;margin:5px;'>
+      <small>Findings</small>
+      <h2><%=@review.findings.count %></h2>         
+    </div>
+    <div class="col" style='height:100px; <%="background-color:#{@review.get_score_range.color} !important;"%> text-align:center;padding-top:10px;margin:5px;'>
+      <small>Overall Score (<%=@review.score.name%>)</small>
+      <h1><%=@review.overall_score%></h1>
+    </div>      
+  </div>
+  
+  <hr>
+  
+  <div class='row'>
+    <div class="col-sm-12 col-md-4">
+      <h4>Finding Status</h4>
+      <% data =[] %>
+          <% @review.action_items.group_by(&:status).each do |status, actions| %>
+              <% data << [status, actions.count] %>
+          <% end %>
+            <%= render 'layouts/charts/pie', data: data %>	         
+    </div>     
+    
+   <div class="col-sm-12 col-md-4">
+      <h4>Status of All Actions</h4>
+      <% data =[] %>
+          <% @review.review_measures.group_by(&:root_category).sort_by{|category, measures| category.name }.each do |category, measures| %>
+              <% data << [category.name, @review.get_review_measures_score(measures)] %>
+          <% end %>
+            <%= render 'layouts/charts/funnel', data: data %>	       
+    </div>     
+
+   <div class="col-sm-12 col-md-4">
+      <h4>Action Owner Status</h4>
+      <% data =[] %>
+          <% @review.review_measures.group_by(&:root_category).sort_by{|category, measures| category.name }.each do |category, measures| %>
+              <% data << [category.name, @review.get_review_measures_score(measures)] %>
+          <% end %>
+            <%= render 'layouts/charts/bar', data: data %>	       
+    </div>      
+    
+  </div>
+   <div class='row'>
+      <div class="col-12">
+      <h4>Review Performance By Category</h4>
+      <% data =[] %>
+          <% @review.review_measures.group_by(&:root_category).sort_by{|category, measures| category.name }.each do |category, measures| %>
+              <% data << [category.name, @review.get_review_measures_score(measures)] %>
+          <% end %>
+         <%= render 'layouts/charts/bar', data: data %>	       
+    </div>             
+   </div>
+</div>
+
+
+<hr>
+
+
+   <iframe frameborder=0 width="100%" height="500" 
+   src= "https://analytics.zoho.eu/open-view/100515000000048236?ZOHO_CRITERIA=%22reviews%22.%22id%22%3D<%=@review.id%>">
+   </iframe>
+

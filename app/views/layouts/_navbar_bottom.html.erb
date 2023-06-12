@@ -1,0 +1,19 @@
+<nav class="navbar fixed-bottom navbar-expand-lg navbar-light bg-darkish py-0">
+    <ul class="navbar-nav mr-auto">
+        <%= link_to 'http://www.firewoodltd.com', :target => '_blank', :class => 'navbar-brand py-0' do %>
+        <%= image_tag 'firewood_logo', :class=>'footer_logo' %> 
+        <% end %>
+    </ul>
+    
+    <ul class="nav justify-content-end">
+        <span style='color:gainsboro !important;'>
+            <small>
+            <%= fa_icon 'copyright'%> Firewood <%=DateTime.current.year%>
+            &nbsp; &nbsp;
+            <%= mail_to "fast@firewoodltd.com" do %>
+                <%= fa_icon 'envelope', :style => 'color:gainsboro !important;'%>
+            <% end %>
+            </small>
+        </span>
+    </ul>
+</nav>

@@ -1,0 +1,8 @@
+<% unless @review.project.nil?%>
+
+    <% content_for :subtitle do %>
+    
+    <%=@review.project.name%>
+    <% end %>
+<% end %>
+<%= render 'layouts/crud/new', item: @review %>

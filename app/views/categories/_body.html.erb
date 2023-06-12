@@ -1,0 +1,85 @@
+ <% if @category.children.count > 0 %>
+      <h3>Categories</h3>  
+      <table class='table table-striped'>
+         <thead>
+            <tr>
+               <th>Name</th>
+               <th>Measures</th>
+            </tr>
+         </thead>
+         <tbody>
+            <% @category.children.order(code: :asc).each do |c| %>
+               <tr>
+                  <td><%=fa_icon 'folder' %>  
+                  <%=link_to  category_url(c.id) do %>
+                     <%= c.code%> - <%= c.name %> 
+                  <% end %>
+                  </td>
+                  <td><%=c.all_measures.count%></td>
+               </tr>
+            <% end %>
+         </tbody>
+      </table>
+   <% end %>
+   
+   
+   
+   <% if @category.measures.count > 0 %>
+      <h3><%=fa_icon Measure.icon %> Measures</h3>
+      
+       <table class='table table-striped'>
+         
+         <thead>
+           <tr>
+             <th>Name</th>
+           </tr>
+         </thead>
+         <tbody>
+           <% @category.measures.order(code: :asc).each do |m| %>
+             <tr>
+               <td>
+                  <%=fa_icon Measure.icon %>
+                  <%= link_to m do %>
+                     <%= m.code %> <%=m.name %> <%= "No Name Specified" if m.name.blank? %>
+                  <% end %>
+               
+               </td>
+             </tr>
+           <% end %>
+         </tbody>
+       </table>   
+    <% end %>
+    
+<hr>
+
+<h3>Guidance</h3> 
+<table class='table'>
+   <tbody>
+   <% @category.category_score_ranges.each do |c| %>
+      <tr>
+         <td width="50px;" style= <%="background-color:#{c.score_range.color} !important" %> ></td>
+         <td><%=c.score_range.score.name%></td>
+         <td><%=c.score_range.name%></td>
+         <td width="75px;"><%=c.score_range.min%> to <%=c.score_range.max%></td>
+         <td><%=c.description%></td>
+         <td width="75px;"><%= link_to (fa_icon 'trash', text: 'Delete'), c, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-outline-danger btn-sm pull-right'%></td>
+      </tr>
+   <% end %>
+   </tbody>
+</table>      
+
+<hr>
+ 
+<div>
+   <%= form_tag category_score_ranges_path, method: :post do %>
+     <%= hidden_field_tag :category_id, @category.id %>
+     <%= select_tag :score_range_id, 
+      options_from_collection_for_select(ScoreRange.order(score_id: :asc,  min: :desc).all, 'id',
+      lambda { |range| "#{range.score.name} | #{range.name} - #{range.min} to #{range.max}" }),
+      :class => 'form-control' %>
+     <br>
+     <%= text_area_tag :description, 'guidance', class: 'form-control', :input_html => { 'rows' => 3 } %>
+     <br>
+     <%= submit_tag "Add Guidance", :class => 'btn btn-sm btn-outline-success' %>
+   <% end %> 
+</div>

@@ -1,0 +1,26 @@
+<%= f.association :customer, as: :hidden %>
+
+  <div class="row">
+    <div class="col col-md-2">
+        <%= f.input :first_name %>      
+    </div>
+    <div class="col col-md-2">
+        <%= f.input :last_name %>      
+    </div>
+    <div class="col col-md-2">
+        <%= f.association :role, collection: Role.where.not(id: 1).order(:name), :label_method => lambda { |role| role.name.titleize }, value_method: :id, include_blank: false  %>      
+    </div>
+  </div>
+  
+  <hr>
+  
+   <div class="row">
+    <div class="col col-md-2">
+        <%= f.input :email, as: :email %>        
+    </div>
+    <div class="col col-md-2">
+        <%=f.input :phone, as: :tel  %>        
+    </div>
+   </div> 
+   
+   <%=f.input :is_enabled, :label => 'Active' %>

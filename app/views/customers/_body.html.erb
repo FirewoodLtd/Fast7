@@ -1,0 +1,8 @@
+<dl>
+    <% @customer.attributes.each_pair do |name, value| %>
+        <% unless value.nil? %>
+          <dt><%=name%></dt>
+          <dd><%=value%></dd>
+          <% end %>
+    <% end %>
+</dl>

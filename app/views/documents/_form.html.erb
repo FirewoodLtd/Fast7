@@ -1,0 +1,7 @@
+<%= f.association :review, as: :hidden %>
+<%= f.association :document_type, collection: DocumentType.order(name: :asc), input_html: { class: "col-md-2"} %>
+<%= f.input :name, input_html: { class: "col-md-2"} %>
+<%= f.input :url, as: :url %>
+<hr>
+
+<%= f.input :is_enabled, :label => 'Under Review', :hint => 'Uncheck this box once the docuement has been reviewed' %>

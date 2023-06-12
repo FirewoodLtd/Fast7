@@ -1,0 +1,17 @@
+<% content_for :breadcrumbs do %>
+   <%= render 'breadcrumb' %>
+<% end %>
+
+<% content_for :footer do %>
+   <%= link_to 'New Category', new_category_path(:category_id => @category.id), :class => 'btn btn-outline-success' %>
+   <%= link_to 'New Measure', new_measure_path(:category_id => @category.id), :class => 'btn btn-outline-success' %>
+<% end %>
+
+<% content_for :body do %>
+  <%= render 'body' %>
+<% end %>
+
+<%= render 'layouts/crud/show',
+item: @category,
+title: "#{@category.code} - #{@category.name}"
+%>

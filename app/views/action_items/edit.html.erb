@@ -1,0 +1,8 @@
+
+<% content_for :subtitle do %>
+   <%=@action_item.finding.review_measure.measure.category.path_name + @action_item.finding.review_measure.measure.name %>
+<% end %>
+
+<%= render 'layouts/crud/edit',
+item: @action_item
+%>

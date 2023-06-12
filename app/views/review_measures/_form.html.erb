@@ -1,0 +1,5 @@
+  <%= f.association :review, as: :hidden %> 
+  <%= f.association :measure, :label_method => lambda { |m| "#{m.category.path_name}#{m.name}"} %>
+  <%= f.input :weight %>
+  <hr>
+  <%= f.input :is_enabled, :label => 'Measure is applicable. Scoring required' %>

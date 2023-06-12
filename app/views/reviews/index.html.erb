@@ -1,0 +1,17 @@
+<% content_for :table_head do %>
+    <th>Project</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Assurance Manager</th>
+    <th>Reviewer</th>
+    <th>Measure Progress</th>
+    <th>Document Progress</th>
+    <th>Interview Progress</th>
+    <th>Score</th>
+<% end %>
+
+<%= render 'layouts/crud/index', 
+items: @reviews, 
+items_class: Review,
+hide_new: current_user.customer.reviews.count >= current_user.customer.max_reviews
+%>

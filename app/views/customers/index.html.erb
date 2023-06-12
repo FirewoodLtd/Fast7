@@ -1,0 +1,12 @@
+<% content_for :table_head do %>
+    <th>Tier</th>
+    <th>Name</th>
+    <th>Main Contact</th>
+    <th>Industries</th>
+    <th>Projects</th>
+    <th>Reviews</th>
+<% end %>
+
+<%= render 'layouts/crud/index',
+items: @customers,
+items_class: Customer %>

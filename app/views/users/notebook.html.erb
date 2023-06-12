@@ -1,0 +1,28 @@
+<h3>My Notebook</h3>
+<div class='row'>
+    <div class='col'>
+        <%= simple_form_for current_user, :remote => true do |f| %>
+            <%= f.text_area :notes, :class => "tinymce"%>
+            <hr>
+            <%= f.button :submit, 'Save Notes',  :class => 'btn btn-success' %>
+        <% end %>        
+    </div>
+    <div class ='col-md-4'>
+        <% if current_user.action_items.where.not("status = 'Complete' or status = 'To Be Agreed'").count > 0 %>
+            <h2>Open Action Items</h2>
+            <hr>
+            <dl>
+                <% current_user.action_items.where.not("status = 'Complete' or status = 'To Be Agreed'").each do |a| %>
+                <dt><%=link_to a.name, a %></dt>
+                <dd><%=a.review.project.customer.name%>/<%=a.finding.review_measure.review.project.name%></dd>
+                <dd><%=a.finding.status_type.name%></dd>
+                <dd>Status: <%=a.status%></dd>
+                <dd><i>Due: <%=a.due_date.strftime("%B %e, %Y") unless a.due_date.nil? %></i></dd>
+                <% end %>
+                
+            </dl>
+        <% else %>
+            <h5>Your open action items will be shown here</h5>
+        <% end %>
+    </div>
+</div>

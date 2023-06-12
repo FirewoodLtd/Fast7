@@ -1,0 +1,8 @@
+$('#error_explanation').html("");
+<% if @review_measure.valid? %>
+  $("#review_measure_score").html("<%= @review_measure.score %>");
+<% else %>
+  <% @review_measure.errors.full_messages.each do |message| %>
+    $('#error_explanation').append("<li> <%= escape_javascript(message) %> </li>");
+  <% end %>
+<% end %>

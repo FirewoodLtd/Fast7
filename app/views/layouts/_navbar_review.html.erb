@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+  
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    
+    <ul class="navbar-nav mr-auto">
+        <!-- Latest compiled and minified CSS -->
+
+        
+        <%= link_to @review, :class=>'navbar-brand nav-link' do %>
+            Review of <%=@review.project.name%>
+        <% end %>
+        
+        <% pb_height = 5 %>
+     
+        
+        
+         <%= link_to documents_path, :class => 'nav-link' do %>
+             Documents
+             <span class='badge rounded-pill bg-success'><%=@review.documents.count %></span>
+             <%= progress_bar @review.pct_complete_documents, style: "height:#{pb_height}px" unless @review.documents.count==0  %>
+         <% end %>
+     
+ 
+        
+        <%= link_to interviews_path, :class => 'nav-link' do %>
+            Interviews
+            <span class='badge rounded-pill bg-success'><%=@review.interviews.count %></span>
+            <%= progress_bar @review.pct_complete_interviews, style: "height:#{pb_height}px" unless @review.interviews.count==0  %>
+        <% end %>
+     
+        
+        <%= link_to review_measures_path, :class => 'nav-link' do %>
+            Measures
+            <span class='badge rounded-pill bg-success'><%=@review.measures.count %></span>
+            <%= progress_bar @review.pct_complete, style: "height:#{pb_height}px" unless @review.measures.count==0 %>
+        <% end %>
+        
+        <li class='nav-link'>|</li>
+ 
+     
+        <%= link_to observations_path, :class => 'nav-link' do %>
+            Observations
+            <span class='badge rounded-pill bg-success'><%=@review.observations.count %></span>
+        <% end %>
+  
+
+        <%= link_to findings_path, :class => 'nav-link' do %>
+            Findings
+            <span class='badge rounded-pill bg-success'><%=@review.findings.count %></span>
+        <% end %>
+
+        
+        <%= link_to action_items_path, :class => 'nav-link' do %>
+            Action Items
+            <span class='badge rounded-pill bg-success'><%=@review.action_items.count %></span>
+            <%= progress_bar @review.pct_complete_action_items, style: "height:#{pb_height}px" unless @review.action_items.count==0 %>
+        <% end %>
+        
+
+        <% unless @recent_items.nil? %> 
+          <li class='nav-link'>|</li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Recent Items
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 500px;">
+              <% @recent_items.each do |item| %>
+              <% begin %>
+                  <% object = Object.const_get(item[0]).find(item[1]) %>
+                      <%= link_to object, :class=> 'nav-link' do %> 
+                          <%= fa_icon(object.class.icon) %>
+                          <small><b><%= item[0].underscore.humanize.titleize %> </b></small>
+                          <%= object.name %>
+                      <% end %>
+              <% rescue %>
+              <% end %>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+
+
+    </ul>      
+      
+
+    <ul class="nav navbar-nav ms-auto pe-3">
+     <% unless @review.get_score_range.nil? %>
+        <span class='badge' style= <%="background-color:#{@review.get_score_range.color} !important;"%>>
+           <small class='py-0'><%=@review.score.name%></small>
+           <h6 class='py-0'><%=@review.overall_score%></h6>
+        </span>
+     <% end %>
+    </ul>
+
+</nav>
+
+<script>
+    $('.progress-bar').addClass('bg-info');
+</script>

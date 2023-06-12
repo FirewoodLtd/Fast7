@@ -1,0 +1,53 @@
+<h5>Positive evidence supporting this measure</h5>
+<table class ='table'>
+<tbody>
+  <% @measure.evidences.each do |e| %>
+    <tr>
+      <td><%=e.code %></td>
+      <td><%= e.name %></td>
+      <td>
+        <%= link_to (fa_icon 'trash', text: 'Delete'), e, method: :delete,
+        data: { confirm: 'Are you sure?' }, :class => 'btn btn-outline-danger btn-sm pull-right' %>   
+      </td>              
+    </tr>
+  <% end %>
+</tbody>
+</table>
+
+<%= form_tag evidences_path, method: :post, :class => 'form-inline' do %>
+ <div class="form-group mb-2">
+    <%= text_field_tag :code, 'code', maxlength: 25, size: 10, class: 'form-control' %> &nbsp
+    <%= text_area_tag :name, 'name',  :cols => 100, :rows => 2, class: 'form-control', :input_html => { 'rows' => 3 } %>
+    <%= hidden_field_tag :measure_id, @measure.id %>
+ </div>
+ <div class="form-group mx-sm-3 mb-2">
+    <%= submit_tag "Add Evidence", :class => 'btn btn-outline-success' %>
+ </div>
+<% end %>        
+
+<br>
+
+<h5>Document Types associated with this measure</h5>
+<table class ='table'>
+<tbody>
+  <% @measure.measure_document_types.each do |d| %>
+    <tr>
+      <td><%= d.document_type.name %></td>
+      <td>
+        <%= link_to (fa_icon 'trash', text: 'Delete'), measure_document_type_path(d), method: :delete,
+        data: { confirm: 'Are you sure?' }, :class => 'btn btn-outline-danger btn-sm pull-right' %>   
+      </td>
+    </tr>
+  <% end %>
+</tbody>
+</table>  
+
+<%= form_tag measure_document_types_path, method: :post, :class => 'form-inline' do %>
+ <div class="form-group mb-2">
+    <%= select_tag :document_type_id, options_from_collection_for_select(DocumentType.order(:name), :id, :name), :class => 'form-control' %>
+    <%= hidden_field_tag :measure_id, @measure.id %>
+ </div>
+ <div class="form-group mx-sm-3 mb-2">
+    <%= submit_tag "Add Document", :class => 'btn btn-outline-success' %>
+ </div>
+<% end %>   

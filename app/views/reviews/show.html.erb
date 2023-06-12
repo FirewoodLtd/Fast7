@@ -1,0 +1,22 @@
+<% content_for :body do %>
+   <%= render 'reviews/show/body' %>
+<% end %>
+
+<% content_for :title do %>
+ Review
+<% end %>
+
+
+<% content_for :subtitle do %>
+ <% unless @review.lead_customer_user.nil? %>
+   <small>Project:</small> <%=link_to @review.project.name, @review.project %>
+   <small>Reviewer:</small> <%= link_to @review.lead_customer_user.name, @review.lead_customer_user %>
+   <small>Started:</small> <%=time_ago_in_words(@review.start_date) %> ago
+   <% end %>
+<% end %>
+
+<% content_for :footer do %>
+   <%= link_to fa_icon('file', text: 'View Report'), download_report_review_path(@review), :class => 'btn btn-success' %>
+<% end %>
+
+<%= render 'layouts/crud/show', item: @review %>  

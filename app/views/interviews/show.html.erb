@@ -1,0 +1,13 @@
+<% content_for :body do %>
+    <%= render 'body' %>
+<% end %>
+
+<% content_for :subtitle do %>
+    <%= @interview.participants %>
+<% end %>
+
+
+<%= render 'layouts/crud/show',
+item: @interview,
+title: @interview.occupation_type.name
+%>  

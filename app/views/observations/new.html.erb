@@ -1,0 +1,20 @@
+<% if @interview %>
+    <% content_for :subtitle do %>
+    Linking to Interview: <b><%=@interview.name%></b>
+    <% end %>
+<% end %>
+
+
+<% if @document %>
+    <% content_for :subtitle do %>
+    Linking to Document: <b><%=@document.name%></b>
+    <% end %>
+<% end %>
+
+<% if @review_measure %>
+    <% content_for :subtitle do %>
+    Linking to Review Measure: <b><%=@review_measure.name%></b>
+    <% end %>
+<% end %>
+
+<%= render 'layouts/crud/new', item: @observation %>

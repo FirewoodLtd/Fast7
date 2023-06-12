@@ -1,0 +1,30 @@
+<div>
+ <% unless @review.get_score_range.nil? %>
+     <div class="btn btn-sm btn-disabled" style= <%="background-color:#{@review.get_score_range.color} !important;" %>>
+        Overall Score: <%=@review.get_score_range.name %> - <%=@review.overall_score%>
+     </div>
+     
+     <i><%=@guidance.description unless @guidance.nil? %> </i>
+ <% end %>
+</div> 
+
+<hr>
+
+<dl>
+  <dt>Assurance Manager</dt>
+  <dd><%=@review.lead_firewood_user.name unless @review.lead_firewood_user.nil? %></dd>
+
+  <dt>Reviewer</dt>
+  <dd><%=@review.lead_customer_user.name unless @review.lead_customer_user.nil?%></dd>
+ 
+ 
+ 
+  <dt>Context</dt>
+  <dd><%=@review.context.html_safe%></dd>
+  
+  <dt>Scope</dt>
+  <dd><%=@review.scope.html_safe%></dd>
+  
+  <dt>Objectives</dt>
+  <dd><%=@review.enquiry.html_safe%></dd>
+</dl>

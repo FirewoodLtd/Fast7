@@ -1,0 +1,11 @@
+<% content_for :table_head do %>
+    <th>Document Type</th>
+    <th>Name</th>
+    <th>Url</th>
+    <th>Observations</th>
+<% end %>
+
+<%= render 'layouts/crud/index', 
+items: @documents,
+items_class: Document,
+icon: 'files-o' %>

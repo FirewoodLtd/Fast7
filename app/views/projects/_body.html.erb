@@ -1,0 +1,51 @@
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <dl>
+                <dt>Description</dt>
+                <dd><%=@project.description %></dd>
+                
+                <dt>Budget</dt>
+                <dd><%=number_to_currency(@project.budget.to_s, :delimiter => ',', :unit => "£") %></dd>
+                
+                <dt>Industry & Lifecycle</dt>
+                <dd><%=@project.industry_type.name unless @project.industry_type.nil?%> | <%=@project.life_cycle_type.name unless @project.life_cycle_type.nil?%></dd>
+                
+                <dt>Impacts</dt>
+                <%@project.impact_types.each do |i| %>
+                <dd><%=i.name%></dd>
+                <% end %>
+                
+                <dt>Departments/Functions</dt>
+                <%@project.department_types.each do |d| %>
+                <dd><%=d.name%></dd>
+                <% end %>                
+                
+                <dt>PM Qualifications</dt>
+                <%@project.certification_types.each do |c| %>
+                <dd><%=c.name%></dd>
+                <% end %>                
+
+            </dl>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <h4>Previous Review Performance</h4>
+            <% data =[] %>
+            <% @project.reviews.each do |r| %>
+                <% data << [r.start_date.strftime('%Y %m'), r.overall_score] unless r.start_date.nil? %>
+            <% end %>    
+            <%= render 'layouts/charts/line', data: data %>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-5">
+            <h4>Category Performance</h4>
+            <% data =[] %>
+            <% @project.reviews.each do |r| %>
+                <% r.review_measures.group_by(&:root_category).sort_by{|category, measures| category.name }.each do |category, measures| %>
+                    <% data << [category.name, r.get_review_measures_score(measures)] %>
+                <% end %>
+            <% end %>    
+            
+            <%= render 'layouts/charts/bar', data: data %>
+        </div>        
+      </div>      
+    </div>

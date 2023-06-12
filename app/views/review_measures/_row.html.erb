@@ -1,0 +1,100 @@
+
+<td width = '300px'>
+  <%= simple_form_for item, wrapper: :inline_form, html: { class: 'form-inline' }, :remote => true  do |f| %>
+      <table class='table table-sm'>
+         <tr>
+            <td>
+               <input 
+                type="range"
+                min=<%=item.review.score.score_ranges.minimum(:min)%>
+                max=<%=item.review.score.score_ranges.maximum(:max)%>
+                value=<%=item.score || item.review.score.score_ranges.minimum(:min)%> 
+                id=<%="score_range_#{item.id}"%>>             
+            </td>
+            <td>
+                <span id="<%="score_value_#{item.id}"%>" class='badge bg-dark text-light' style="width:30px;"><%=item.score%></span>      
+            </td>
+            <td>
+                <span id="<%="score_info_#{item.id}"%>" class='badge' style="width:100px; background-color:<%= item.get_score_range.color%> !important"><%=item.get_score_range.name%></span>         
+            </td>
+            <td>
+                <%= f.input :score, :input_html => { :id => "review_measure_score_#{item.id}"}, :as => :hidden %> 
+                <%= f.button :button, "Save", :class => 'btn btn-sm btn-outline-success', :id => "button_#{item.id}" %>     
+            </td>
+         </tr>
+      </table>
+      
+  <% end %>    
+</td>
+
+
+<td><%= item.measure.category.path_name %></td>
+
+<td><%= item.measure.code %> <%= item.measure.name %></td> 
+
+<td>
+   <dl>
+    <% item.measure.evidences.each do |e| %>
+    <dd><%= e.name %></dd>
+    <% end %>
+   </dl>
+</td>
+
+<td>
+    <dl>
+    <% item.measure.measure_document_types.each do |d| %>
+    <dd><%= d.document_type.name %></dd>
+    <% end %>
+    </dl>
+</td>
+
+<td>
+    <dl>
+        <% if item.review_evidences.count > 0 %>
+           <dd style='font-size: 10px;'>Evidence: <%=item.review_evidences.count%></dd>
+        <% end %>
+        <% if item.observations.count > 0 %>
+           <dd style='font-size: 10px;'>Observations: <%=item.observations.count%></dd>
+        <% end %>
+        <% if item.findings.count > 0 %>
+           <dd style='font-size: 10px;'>Findings: <%=item.findings.count%></dd>
+        <% end %>
+    </dl>
+</td>
+
+ <script>
+   
+
+    // Update the current slider value (each time you drag the slider handle)
+    document.getElementById("<%="score_range_#{item.id}"%>").oninput = function() {
+       
+      var slider_value = this.value
+      var url = '/get_guidance_by_score?id=' + <%=item.id%> + '&score=' + slider_value
+      
+      $.get(url, function(data) {
+        
+        //update UI
+        document.getElementById("<%="score_info_#{item.id}"%>").innerHTML = data.name
+        document.getElementById("<%="score_info_#{item.id}"%>").style.backgroundColor = data.color;
+        
+        document.getElementById("<%="score_value_#{item.id}"%>").innerHTML = slider_value
+        
+        //update form value for sumbission
+        document.getElementById("<%="review_measure_score_#{item.id}"%>").value=slider_value
+        
+        document.getElementById("<%="button_#{item.id}"%>").style.display = "block";
+  
+      });  
+    }
+  </script>
+  
+  
+   <script>
+   
+   document.getElementById("<%="button_#{item.id}"%>").style.display = "none";
+   
+   document.getElementById("<%="button_#{item.id}"%>").onclick = function() {
+      document.getElementById("<%="button_#{item.id}"%>").style.display = "none";
+   }
+
+  </script>

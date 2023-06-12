@@ -1,0 +1,23 @@
+<%= f.association :user, as: :hidden %>
+<%= f.association :review, as: :hidden %>
+
+<%= f.input :disposition, :label => "Disposition", collection: comments_disposition, input_html: {class: "col-md-2"} %>  
+<%= f.text_area :comments, :class => "tinymce"%>
+
+<% if @interview %>
+    <%= form_for :observation_links do |l| %>
+        <%= l.hidden_field  :interview_id, :value => @interview.id %>
+    <% end %>
+<% end %>
+
+<% if @document %>
+    <%= form_for :observation_links do |l| %>
+        <%= l.hidden_field  :document_id, :value => @document.id %>
+    <% end %>
+<% end %>
+
+<% if @review_measure %>
+    <%= form_for :observation_links do |l| %>
+        <%= l.hidden_field  :review_measure_id, :value => @review_measure.id %>
+    <% end %>
+<% end %>

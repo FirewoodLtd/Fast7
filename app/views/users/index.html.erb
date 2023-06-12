@@ -1,0 +1,12 @@
+<% content_for :table_head do %>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Phone</th>
+  <th>Role</th>
+  <th>Enabled</th>
+<% end %>
+
+<%= render 'layouts/crud/index', 
+items: @users,
+items_class: User
+%>

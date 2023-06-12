@@ -1,0 +1,14 @@
+<% content_for :table_head do %>
+     <th width='100px'>Score</th>
+     <th>Category</th>
+     <th>Measure</th>
+     <th>Evidence</th>
+     <th>Documents</th>
+     <th style="width:75px;">Items</th>
+<% end %>
+
+<%= render 'layouts/crud/index',
+items: @review_measures,
+items_class: ReviewMeasure,
+hide_new: true
+%>

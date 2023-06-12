@@ -1,0 +1,12 @@
+<% content_for :table_head do %>
+    <th>Role</th>
+    <th>Participants</th>
+    <th>Interview Date</th>
+    <th>Conducted By</th>
+<% end %>
+
+<%= render 'layouts/crud/index', 
+items: @interviews,
+items_class: Interview,
+icon: 'users'
+%>

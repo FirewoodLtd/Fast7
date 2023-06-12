@@ -1,0 +1,10 @@
+<td><%=item.name%></td>
+<td><%=item.project_type.name %></td>
+<td>
+<% if item.active_review %>
+<%= link_to 'Continue Review', item.active_review, :class => 'btn btn-sm btn-success'%>
+<% else %>
+<%= link_to 'New Review', new_review_path(:project_id => item.id), :class => 'btn btn-sm btn-outline-primary'%>
+<% end %>                   
+</td>
+<td><%= "#{time_ago_in_words(item.last_review.stop_date)} ago" unless item.last_review.nil? %> </td> 

@@ -1,0 +1,17 @@
+<% if @user.present? %>
+  <dl>
+    <dt>email</dt>
+    <dd><%= @user.email %></dd>
+
+    <%= link_to send_welcome_email_user_path(@user),  method: :post, class: 'btn btn-sm btn-outline-success' do %>    
+      <%= fa_icon 'envelope' %>
+      Send Welcome Email
+    <% end %>
+
+    <dt>phone</dt>
+    <dd><%= @user.phone %></dd>
+
+    <dt>Role</dt>
+    <dd><%= @user.role.name %></dd>
+  </dl>
+<% end %>

@@ -1,0 +1,37 @@
+
+<% container_id = "container_#{rand()}" %>
+<div id="<%=container_id%>"></div>
+
+<script>
+Highcharts.chart('<%=container_id%>', {
+          
+ chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>:<br>{point.percentage:.1f} %<br>total: {point.total}'
+            }
+        }
+    },
+    series: <%= raw data.to_json%>
+});
+</script>

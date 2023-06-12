@@ -1,0 +1,33 @@
+<% icon = item.class.icon if item.class.respond_to?(:icon) && icon.nil? %>
+<% icon ='cube' if icon.nil? %>
+
+<% title = item.class.name.split('::').last.underscore.humanize.titleize if title.nil? %>
+
+<%= yield :breadcrumbs %>
+
+<%= simple_form_for item do |f| %>
+
+<%= f.error_notification %>
+<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+<div class="card" >
+<div class="card-header bg-success" >
+  <h2 class="card-title">
+    <%= fa_icon icon %>  
+    New <%= title %>
+  </h2>
+  <h6 class="card-subtitle text-muted"><%= yield :subtitle %></h6>
+</div>
+
+<div class="card-body">
+    <%= render 'form', f:f %>
+</div>
+
+<div class="card-footer">
+    <%= f.button :submit,  "Create #{item.class.name.split('::').last.underscore.titleize}", :class => 'btn btn-success' %>
+
+    <%= link_to url_for(action: :index, :controller => item.class.name.split('::').last.underscore.pluralize), :class => 'btn btn-outline-info' do %>
+      Cancel
+    <% end %>            
+</div>
+<% end %>

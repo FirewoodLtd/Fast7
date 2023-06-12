@@ -1,0 +1,12 @@
+<% content_for :subtitle do %>
+   <%= @document.document_type.name %>
+<% end %>
+
+<% content_for :body do %>
+   <%= render 'body' %>
+<% end %>
+
+<%= render 'layouts/crud/show',
+item: @document,
+title: @document.name
+%>

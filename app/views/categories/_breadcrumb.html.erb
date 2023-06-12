@@ -1,0 +1,14 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page">
+      <%=link_to 'Frameworks', categories_path %>
+    </li>
+    
+    <% @category.path.each do |c| %>
+      <li class="breadcrumb-item" aria-current="page">
+        <%=link_to c.name, category_url(c.id) %>
+      </li>         
+    <% end %>    
+   
+  </ol>
+</nav>

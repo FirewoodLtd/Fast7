@@ -1,0 +1,7 @@
+<% content_for :subtitle do %>
+    <%=@interview.participants%>
+<% end %>
+
+<%= render 'layouts/crud/edit',
+item: @interview
+%>

@@ -1,0 +1,96 @@
+<dl>
+<dt>Last updated</dt>
+<dd><%=@observation.updated_at.strftime('%B %d, %Y %l:%M %p')%></dd>
+<dt>Disposition</dt>
+<dd><%=@observation.disposition%></dd>
+</dl>
+
+<div>
+<%=@observation.comments.html_safe%>    
+</div>
+
+<hr>
+
+<h4>Document Links</h4>
+
+<table class='table'>
+    <% @observation.observation_links.where.not(document_id: nil).each do |link| %>
+    <tr>
+        <td><%=link_to link.document.document_type.name, link.document %></td>
+        <td><%= link.document.name%></td>
+        <td>
+        <%= link_to (fa_icon 'trash', text: 'Delete'), observation_link_path(link), method: :delete,
+        data: { confirm: 'Are you sure?' }, :class => 'btn btn-outline-danger btn-sm pull-right' %>   
+        </td>
+    </tr>
+    <% end %>
+</table>
+
+<% @unlinked=@observation.review.documents.where.not(id: @observation.documents.pluck(:id)) %>
+<% if @unlinked.count > 0 %>
+    <%= form_tag observation_links_path, method: :post, :class => 'form-inline' do %>
+        <div class="form-group mb-2">
+           <%= select_tag :document_id, options_from_collection_for_select(@unlinked, :id, :type_name), :class => 'form-control' %>
+           <%= hidden_field_tag :observation_id, @observation.id %>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+           <%= submit_tag "Link Document", :class => 'btn btn-primary' %>
+        </div>
+    <% end %> 
+<% end %> 
+<hr>
+
+<h4>Interview Links</h4>
+<table class='table'>
+        <% @observation.observation_links.where.not(interview_id: nil).each do |link| %>
+        <tr>
+            <td><%= link_to link.interview.occupation_type.name, link.interview %></td>
+            <td><%= link.interview.participants%></td>
+            <td>
+        <%= link_to (fa_icon 'trash', text: 'Delete'), observation_link_path(link), method: :delete,
+        data: { confirm: 'Are you sure?' }, :class => 'btn btn-outline-danger btn-sm pull-right' %>   
+        </td>
+        </tr>
+    <% end %>
+</table>
+
+<% @unlinked=@observation.review.interviews.where.not(id: @observation.interviews.pluck(:id)) %>
+<% if @unlinked.count > 0 %>
+    <%= form_tag observation_links_path, method: :post, :class => 'form-inline' do %>
+        <div class="form-group mb-2">
+           <%= select_tag :interview_id, options_from_collection_for_select(@unlinked, :id, :name), :class => 'form-control' %>
+           <%= hidden_field_tag :observation_id, @observation.id %>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+           <%= submit_tag "Link Interview", :class => 'btn btn-primary' %>
+        </div>
+    <% end %> 
+<% end %> 
+
+<hr>
+
+<h4>Measure Links</h4>
+<table class='table'>
+    <% @observation.observation_links.where.not(review_measure_id: nil).each do |link| %>
+    <tr>
+        <td><%= link_to "#{link.review_measure.measure.category.path_name}/#{link.review_measure.measure.name}", link.review_measure %></td>
+                <td>
+        <%= link_to (fa_icon 'trash', text: 'Delete'), observation_link_path(link), method: :delete,
+        data: { confirm: 'Are you sure?' }, :class => 'btn btn-outline-danger btn-sm pull-right' %>   
+        </td>
+    </tr>
+    <% end %>
+</table>
+
+<% @unlinked=@observation.review.review_measures.where.not(id: @observation.review_measures.pluck(:id)) %>
+<% if @unlinked.count > 0 %>
+    <%= form_tag observation_links_path, method: :post, :class => 'form-inline' do %>
+        <div class="form-group mb-2">
+           <%= select_tag :review_measure_id, options_from_collection_for_select(@unlinked, :id, lambda { |m| "#{m.measure.category.path_name}/#{m.name}"}), :class => 'form-control' %>
+           <%= hidden_field_tag :observation_id, @observation.id %>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+           <%= submit_tag "Link Measure", :class => 'btn btn-primary' %>
+        </div>
+    <% end %>
+<% end %> 

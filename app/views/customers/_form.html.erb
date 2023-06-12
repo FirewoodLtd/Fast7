@@ -1,0 +1,112 @@
+<div class= 'row'>
+   <div class ='col'>
+      <%= f.input :name %>      
+   </div>
+   <div class ='col'>
+      <%= f.input :address %>
+   </div>
+   <div class ='col'>
+      <%= f.input :registration_num %>
+   </div>
+</div>
+<div class= 'row'>
+   <div class ='col'>
+      <%= f.input :tier, :collection => customer_tier %>
+   </div>
+   <div class ='col'>
+      <%= f.input :expires_at, as: :date, html5: true %>
+   </div>   
+   <div class ='col'>
+      <%= f.input :max_projects %>      
+   </div>
+   <div class ='col'>
+      <%= f.input :max_reviews %>
+   </div>
+   <div class ='col'>
+      <%= f.input :max_frameworks %>
+      <%= f.input :allow_custom_frameworks %>
+   </div>
+      
+</div>
+
+<div class ='row'>
+   <div class='col'>
+      <%= f.input :logo_url %>
+   </div>
+</div>
+
+<hr>
+
+
+<div class = 'row'>
+   <div class ='col-4'>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Primary Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Billing Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Technical Contact</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <%= f.input :contact_main_name %>
+            <%= f.input :contact_main_title %>
+            <%= f.input :contact_main_address %>
+            <%= f.input :contact_main_phone %>
+            <%= f.input :contact_main_email %>   
+        </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <%= f.input :contact_billing_name %>
+            <%= f.input :contact_billing_title %>
+            <%= f.input :contact_billing_address %>
+            <%= f.input :contact_billing_phone %>
+            <%= f.input :contact_billing_email %>    
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <%= f.input :contact_technical_name %>
+            <%= f.input :contact_technical_title %>
+            <%= f.input :contact_technical_address %>
+            <%= f.input :contact_technical_phone %>
+            <%= f.input :contact_technical_email %>  
+        </div>
+      </div>
+   </div>
+</div>
+
+
+<hr>
+
+
+<div class= 'row'>
+   <div class ='col'>
+     <h2>Permitted Frameworks</h2>
+        <div class ='scrollbox'>
+        <%= f.collection_check_boxes :category_ids, @frameworks, :id, :name, :include_hidden => false do |b| %>
+            <%= b.label class:"form-check-label" do%>
+             <%=b.check_box%>
+             <%=b.text %>
+            <%end%>
+            <br>
+        <% end %>
+        </div>     
+   </div>
+      <div class ='col'>
+      <h2>Permitted Templates</h2>
+        <div class ='scrollbox'>
+        <%= f.collection_check_boxes :template_ids, @templates, :id, :name, :include_hidden => false do |b| %>
+            <%= b.label class:"form-check-label" do%>
+             <%=b.check_box%>
+             <%=b.text %>
+            <%end%>
+            <br>
+        <% end %>
+        </div>       
+   </div>
+</div>
+
+<hr>
+<%=f.input :is_enabled, :label => 'Customer is Active' %>

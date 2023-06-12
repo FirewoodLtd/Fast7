@@ -1,0 +1,9 @@
+<% content_for :body do %>
+    <%= render 'body' %>
+<% end %>
+
+
+<%= render 'layouts/crud/show',
+item: @customer,
+title: @customer.name
+%>

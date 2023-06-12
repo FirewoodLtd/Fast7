@@ -1,0 +1,16 @@
+<%= f.association :finding, :as => :collection_select, collection: @review.findings,
+:label_method => lambda { |m| "#{m.review_measure.measure.category.path_name}#{m.review_measure.measure.name} - #{m.description}"}  %>
+
+<%= f.input :description %>
+<hr>
+
+<%= f.association :user, :label => 'Action Owner', collection: current_user.customer.users.where(:is_enabled => true).order(:last_name), input_html: { class: "col-md-2"} %>
+<%= f.input :status, collection: action_item_status, value_method: :first,  input_html: { class: "col-md-2"} %>
+<%= f.input :status_date, as: :date, html5: true, input_html: { class: "col-md-2"}%>
+<hr>
+<%= f.input :requested_date, as: :date, html5: true, input_html: { class: "col-md-2"}  %>
+<%= f.input :due_date, as: :date, html5: true, input_html: { class: "col-md-2"}  %>
+<%= f.input :completed_date, as: :date, html5: true, input_html: { class: "col-md-2"} %>
+<hr>
+<label for="comments">Notes</label>
+<%= f.text_area :comments, :class => "tinymce"%>

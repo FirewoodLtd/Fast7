@@ -1,0 +1,14 @@
+<% content_for :table_head do %>
+   <th>Action Item</th>
+   <th>Finding</th>
+   <th>Priority</th>
+   <th>Action Owner</th>
+   <th>Status</th>
+   <th>Status Date</th>
+   <th>Due Date</th>
+<% end %>
+
+<%= render 'layouts/crud/index',
+items: @action_items,
+items_class: ActionItem
+%>

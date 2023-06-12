@@ -1,0 +1,15 @@
+<h3>Measures</h3>
+<table class ='table table-sm table-striped table-data'>
+   <thead>
+      <th>Category</th>
+      <th>Measure</th>
+   </thead>
+   <tbody>
+      <% @template.template_measures.each do |tm| %>
+      <tr>
+         <td><%=tm.measure.category.path_name %></td>
+         <td><%=link_to tm.measure.name, tm.measure %></td>
+      </tr>
+      <% end %>
+   </tbody>
+</table>

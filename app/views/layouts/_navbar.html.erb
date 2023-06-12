@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+
+  <% logo = 'fast_logo' %>
+  <% logo = current_user.customer.logo_url unless  current_user.customer.logo_url.nil? or current_user.customer.logo_url.blank? %>
+  <%= image_tag logo, :class=>'nav_logo' %> 
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <%unless current_user.customer.nil?%>
+        <li class="nav-item active">
+          <%= link_to root_path, :class=>'nav-link'  do %>
+            <%=fa_icon 'home' %>
+            <%=current_user.customer.name %> <span class="sr-only">(current)</span></a>
+          <% end %>
+        </li>
+
+           <li class="nav-item">
+             <%= link_to  fa_icon(Project.icon, text: 'Projects'), projects_path, :class=>'nav-link' %>
+           </li>          
+        
+           <li class="nav-item">
+             <%= link_to  fa_icon(Review.icon, text: 'Reviews'), reviews_path, :class=>'nav-link' %>
+           </li>      
+
+         <% if can? :manage, Customer or can? :manage, User or can? :manage,Category or can? :manage,::Template %>
+         
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%=fa_icon 'cog' %> Settings
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><%= link_to "Customers", customers_path, :class=>'dropdown-item' if can? :manage, Customer %></li>
+              <li><%= link_to "Users", users_path, :class=>'dropdown-item' if can? :manage, User %></li>
+              <li><%= link_to "Frameworks", categories_path, :class=>'dropdown-item' if can? :manage, Category %></li>
+              <li><%= link_to "Templates", templates_path, :class=>'dropdown-item'if can? :manage, ::Template %></li>
+            </ul>
+          </li>         
+         <% end %>   
+         
+      <li class="nav-item">
+        <%= link_to fa_icon('book', text: 'My Notes'), notebook_user_path(current_user), :class=>'nav-link' %>
+      </li>   
+         
+        
+      <% end %>
+      </ul>
+      <form class="d-flex">
+        <% if current_user != true_user %>
+          <%= link_to  "Stop Impersonating", stop_impersonating_users_path, method: :post, :class=>'btn btn-outline-danger' %>
+        <% end %>          
+          <ul class="nav navbar-nav navbar-right">
+      
+            <% if current_user != true_user %>
+              <%= link_to  "Stop Impersonating", stop_impersonating_users_path, method: :post, :class=>'btn btn-outline-danger' %>
+            <% end %>          
+            
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 <%=fa_icon 'user' %> 
+                 <span class="badge bg-secondary"><%=current_user.role.name.titleize%></span>
+                 <%=current_user.first_name %> <%=current_user.last_name %>             
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><%= link_to "Account", customer_path(current_user.customer), :class=>'dropdown-item' %></li>
+                <li><div class="dropdown-divider"></div></li>
+                <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn btn-primary' %></li>
+
+                </ul>
+              </li>      
+            
+          </ul>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+

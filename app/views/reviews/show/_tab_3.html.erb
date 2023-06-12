@@ -1,0 +1,9 @@
+<%= simple_form_for @review do |f| %>
+
+<div>Executive Summary</div>
+<%= f.text_area :summary, :class => 'tinymce' %>
+
+<br>
+<%= f.button :submit, "Save", :class => 'btn btn-success' %>
+
+<% end %>

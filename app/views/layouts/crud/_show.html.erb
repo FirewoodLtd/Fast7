@@ -1,0 +1,46 @@
+<% icon = item.class.icon if item.class.respond_to?(:icon) && icon.nil? %>
+<% icon ='cube' if icon.nil? %>
+
+<% title = item.name  if title.nil? && item.respond_to?(:name) %>
+<% title = item.class.name.split('::').last.underscore.humanize.titleize if title.nil? %>
+
+<%= yield :breadcrumbs %>
+
+<div class="card">
+<div class="card-header">
+  
+  <span class ='pull-right'>
+    <% unless item.class.name.split('::').last.underscore.humanize.titleize == title %>
+      <kbd><%=item.class.name.split('::').last.underscore.humanize.titleize%></kbd>
+    <% end %>    
+    <% if item.present? && can?(:manage, :all) %>
+      <kbd><%= item.id %></kbd>
+    <% end %>
+  </span>
+  
+  
+  <h2 class="card-title">
+    <%= fa_icon icon %>  
+    <%= title %>
+    <%= yield :title %>
+    
+    
+    <% if item && item.class.column_names.include?('is_enabled') %>
+      <td><span class="badge badge-<%= item.is_enabled ? 'success' : 'info' %>"><%= item.status_text %></span></td>              
+    <% end %>
+  
+
+  </h2>
+  <h6 class="card-subtitle text-muted"><%= yield :subtitle %></h6>
+</div>
+
+<div class="card-body">
+  <%= yield :body %>
+</div>
+
+<div class="card-footer">
+<%= link_to url_for(action: :edit, :controller => item.class.name.split('::').last.underscore.pluralize), :class => 'btn btn-outline-warning' do %>
+  <%= fa_icon "pencil" %> Edit <%= item.class.name.split('::').last.underscore.humanize.titleize %>
+<% end %>      
+<%= yield :footer %>
+</div>

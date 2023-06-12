@@ -1,0 +1,31 @@
+<td><%= link_to item.project.name, item.project %></td>
+<td><%= item.start_date.strftime("%B %e, %Y") unless item.start_date.nil? %></td>
+<td><%= item.stop_date.strftime("%B %e, %Y") unless item.stop_date.nil? %></td>
+
+<td><%=link_to item.lead_firewood_user.name, item.lead_firewood_user unless item.lead_firewood_user.nil?%></td>
+<td><%=link_to item.lead_customer_user.name, item.lead_customer_user unless item.lead_customer_user.nil?%></td>
+
+<td>
+   <span>
+      <%= progress_bar item.pct_complete,  label: true, style: 'min-width: 20px' %>
+      <small><%= item.total_complete %> of <%= item.review_measures.count%> <%=link_to 'Measures', item %></small>
+   </span>
+</td>
+
+<td>
+   <span>
+      <%= progress_bar item.pct_complete_documents,  label: true, style: 'min-width: 20px' %>
+      <small><%= item.documents.where(is_enabled: :false).count %> of <%= item.documents.count%> <%=link_to 'Documents', item %> </small>
+   </span>
+</td>
+
+<td>
+   <span>
+      <%= progress_bar item.pct_complete_interviews,  label: true, style: 'min-width: 20px' %>
+      <small><%= item.interviews.where(is_enabled: :false).count %> of <%= item.interviews.count%> <%=link_to 'Interviews', item %></small>
+   </span>
+</td>
+<td style= <%="background-color:#{item.get_score_range.color} !important;"%>>
+     <small class='py-0'><%=item.score.name%></small>
+     <h6 class='py-0'><%=item.overall_score%></h6>
+</td>

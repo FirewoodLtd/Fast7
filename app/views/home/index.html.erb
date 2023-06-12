@@ -1,0 +1,48 @@
+ <div class="container-fluid">
+   <div class="row">
+     <div class="col-12">
+         <h4>Project Performance Over Time</h4>
+         <%= render 'layouts/charts/line', data: @line_chart_data %>	    
+     </div>
+   </div>
+   
+   <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6">
+         <h4>Action Completion Rates</h4>
+         <%= render 'layouts/charts/stacked_column', data: @stacked_bar_chart_data %>	    
+
+     </div>
+     <div class="col-sm-12 col-md-6 col-lg-6">
+         <h4>Status of All Actions</h4>
+         <%= render 'layouts/charts/funnel',  data: @funnel_chart_data %>	    
+
+     </div>        
+   </div>      
+
+ 
+   <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6">
+         <h4>Total Documents to Review</h4>
+         <%= render 'layouts/charts/pie',  data: @pie_chart_1_data  %>	   
+         
+     </div>
+     <div class="col-sm-12 col-md-6 col-lg-6">
+         <h4>Total Interviews to Complete</h4>
+         <%= render 'layouts/charts/pie',  data: @pie_chart_2_data  %>	 
+     </div>        
+   </div>      
+  
+ 
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6">
+         <h4>ROY CHART</h4>
+         <%= render 'layouts/charts/spiderweb',  data: @polar_chart_1_data %>	 
+         
+     </div>
+     <div class="col-sm-12 col-md-6 col-lg-6">
+         <h4>ROY CHART</h4>
+         <%= render 'layouts/charts/spiderweb', data: @polar_chart_2_data %>
+         
+     </div>        
+   </div>      
+ </div>        

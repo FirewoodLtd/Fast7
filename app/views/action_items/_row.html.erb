@@ -1,0 +1,10 @@
+<% item.description="No Description" if item.description.length == 0 %>
+<td><%= link_to  item.description, action_item_path(item) %></td>
+<td><%= link_to item.finding.name, finding_path(item.finding) %></td>
+<td><%=item.finding.status_type.name %></td>
+<td><%= item.user.name %></td>
+<td <%= "style=background-color:#{item.get_color} !important"%>>
+<%= item.status %>
+</td>
+<td><%= "#{time_ago_in_words(item.status_date)} ago" unless item.status_date.nil? %></td>
+<td><%= item.due_date.strftime("%B %e, %Y") unless item.due_date.nil? %></td>

@@ -1,0 +1,203 @@
+<style>
+  input[type=range][orient=vertical]
+  {
+      writing-mode: bt-lr; /* IE */
+      -webkit-appearance: slider-vertical; /* WebKit */
+      width: 8px;
+      height: 175px;
+      padding: 0 5px;
+  }  
+</style>
+
+
+<% if @review_measure.is_enabled %>  
+<h5>Scoring</h5>
+
+<div class='row'>
+   <div class ='col'>
+
+  <%= simple_form_for @review_measure, wrapper: :inline_form, html: { class: 'form-inline' }  do |f| %>
+    <input 
+    type="range"
+    min=<%=@review_measure.review.score.score_ranges.minimum(:min)%>
+    max=<%=@review_measure.review.score.score_ranges.maximum(:max)%>
+    value=<%=@review_measure.score || @review_measure.review.score.score_ranges.minimum(:min)%> 
+    id="score_range">             
+    <h1>
+      
+    &nbsp
+      
+    <span id='score_value' class='badge bg-dark text-light'><%=@review_measure.score%></span> 
+    <span id='score_info' class='badge' style="background-color:<%= @review_measure.get_score_range.color%> !important">
+        <%=@review_measure.get_score_range.name%>
+    </span>    
+    </h1>
+    
+    &nbsp &nbsp
+  
+    <%= f.input :score, as: :hidden %> 
+    <%= f.button :button, "Save", :class => 'btn btn-sm btn-outline-success' %>
+    
+  <% end %>  
+  </div>
+  <div class='col'>
+    <h6>Scoring Evidence</h6>
+    <ul class="list-unstyled">
+    <% @review_measure.measure.evidences.each do |e| %>
+      <li><%=e.code%> | <%=e.name%></li>
+    <% end %>  
+    </ul>
+  </div>
+</div>
+
+<span id='score_guidance'></span> 
+<hr>
+
+
+
+<% if @review_measure.review.documents.count > 0 %>
+
+   <h4>Document Evidence</h4>
+   
+   <%= form_tag review_evidences_path, method: :post, :class => 'form-inline' do %>
+     <div class="form-group mb-2">
+        <%= select_tag :document_id, options_from_collection_for_select(@review_measure.review.documents.order(:name), :id, :type_name), :class => 'form-control' %>
+        <%= hidden_field_tag :review_measure_id, @review_measure.id %>
+     </div>
+     <div class="form-group mx-sm-3 mb-2">
+        <%= submit_tag "Add Evidence", :class => 'btn btn-outline-primary' %>
+     </div>
+   <% end %>
+
+      
+   <table class='table table-sm'>
+       <thead class='thead-dark'>
+           <th>Document Type</th>
+           <th>Document Name</th>
+       </thead>
+       <tbody>
+           <% @review_measure.review_evidences.each do |evidence| %>
+           <tr>
+               <td><%=evidence.document.document_type.name%></td>
+               <td><%=evidence.document.name %></td>
+           </tr>
+           <% end %>
+       </tbody>
+   </table>   
+
+  <hr>
+<% end %>
+
+
+
+<h4>Findings
+<%= link_to 'Add Finding', new_finding_path(:review_measure_id => @review_measure), :class => 'btn btn-outline-primary' %> 
+</h4>
+<% if @review_measure.findings.count > 0 %>
+
+<table class='table table-sm'>
+    <thead class='thead-dark'>
+        <th></th>
+        <th>Description</th>
+        <th>Status</th>
+    </thead>
+    <tbody>
+        <% @review_measure.findings.each do |finding| %>
+        <tr>
+            <td width=100px;><%=link_to 'Show', finding, :class => 'btn btn-sm btn-outline-info' %></td>
+            <td><%= finding.description %></td>
+            <td><%=finding.status_type.name %></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+<hr>
+<% end %>
+
+
+<h4>Observations
+<%= link_to "Add Observation", new_observation_path(:review_measure_id => @review_measure.id), :class => 'btn btn-outline-primary' %>
+</h4>
+
+<% if @review_measure.observations.count > 0 %>
+
+<table class='table table-sm'>
+    <thead class='thead-dark'>
+        <th></th>
+        <th>Name</th>
+        <th>Disposition</th>
+    </thead>
+    <tbody>
+        <% @review_measure.observations.each do |link| %>
+        <tr>
+            <td width=100px;>
+                <%=link_to 'Show', link, :class => 'btn btn-sm btn-outline-info' %>
+            </td>
+            <td>
+              <%=link.summary %>  
+            </td>
+            <td>
+                <%= link.disposition %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<hr>
+<% end %>
+
+<% @unlinked=@review_measure.review.observations.where.not(id: @review_measure.observations.pluck(:id)) %>
+<% if @unlinked.count > 0 %>
+    <%= form_tag observation_links_path, method: :post, :class => 'form-inline' do %>
+        <div class="form-group mb-2">
+           <%= select_tag :observation_id, options_from_collection_for_select(@unlinked, :id, :summary), :class => 'form-control' %>
+           <%= hidden_field_tag :review_measure_id, @review_measure.id %>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+           <%= submit_tag "Link Observation", :class => 'btn btn-primary' %> &nbsp
+           <%= link_to "New Observation", new_observation_path(:review_measure_id => @review_measure.id), :class => 'btn btn-outline-primary' %>
+        </div>
+    <% end %>         
+<% end %>
+
+<% else %>
+
+<h5>This measure has been marked as 'not applicable' for this review</h5>
+
+<% end %>
+
+
+ <script>
+    var slider = document.getElementById("score_range");
+    var output = document.getElementById("score_info");
+    var value = document.getElementById("score_value");
+    var guidance = document.getElementById("score_guidance");
+    
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() {
+      var slider_value = this.value
+      var url = '/get_guidance_by_score?id=' + <%=@review_measure.id%> + '&score=' + slider_value
+      
+      $.get(url, function(data) {
+        
+        //update UI
+        output.innerHTML = data.name
+        output.style.backgroundColor = data.color;
+        slider.style.backgroundColor = data.color;
+        
+        value.innerHTML = slider_value
+        guidance.innerHTML = data.guidance
+        
+        //update form value for sumbission
+        document.getElementById("review_measure_score").value=slider_value
+        
+        
+        
+      });  
+    }
+    
+    //init UI
+    slider.oninput();
+
+  </script>

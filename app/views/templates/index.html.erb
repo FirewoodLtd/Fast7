@@ -1,0 +1,10 @@
+<% content_for :table_head do %>
+  <th>Name</th>
+  <th>Description</th>
+  <th>Measures</th>
+<% end %>
+
+<%= render 'layouts/crud/index', 
+items: @templates,
+items_class: ::Template
+%>

@@ -1,0 +1,47 @@
+<%= f.association :customer, :as => :hidden, :input_html => { :value =>  @project.customer.id } %>
+
+  <div class="row">
+    <div class="col col-md-2">
+      <%= f.association :project_type %>
+    </div>
+    <div class="col">
+      <%= f.input :name, :hint => 'Use project title, or a unique name if the project has no title' %>
+    </div>
+    <div class="col col-md-2">
+      <%= f.input :budget, :label => "Budget (#{fa_icon('gbp')})".html_safe, :input_html => {value: number_with_precision(f.object.budget, precision: 2) }, :hint => 'Enter current approved budget'%>
+    </div>
+  </div>
+  
+
+<%= f.input :description, :label => 'Description & Objectives', :hint => 'This should be copied from project/programme/portfolio documentation',  :as => :text, :input_html => { 'rows' => 3 } %>
+
+<hr>
+
+
+  <div class="row">
+    <div class="col col-md-3">
+        <%= f.association :industry_type, collection: IndustryType.order(name: :ASC), :hint => 'Select the best available match' %>      
+    </div>
+    <div class="col">
+        <%= f.association :life_cycle_type, collection: LifeCycleType.order(name: :ASC), :label_method => lambda { |item| "#{item.name} | #{item.description}" }, :hint => 'Select the best available match' %>      
+    </div>
+    
+  </div>
+  
+  <hr>
+  
+  <div class="row">
+    <div class="col strong">
+        <%= f.association :impact_types, collection: ImpactType.all.order(:name), :label => 'What impact will the project have?', as: :check_boxes, :include_hidden => false %>          
+    </div>
+    <div class="col">
+        <%= f.association :department_types, collection: DepartmentType.all.order(:name), :label => 'What departments/functions impacted by this project?', as: :check_boxes, :include_hidden => false %>          
+    </div>
+    <div class="col">
+        <%= f.association :certification_types, collection: CertificationType.all.order(:name), :label  => 'Qualification of the Project Manager (if known)', as: :check_boxes, :include_hidden => false %>          
+    </div>    
+  </div>  
+  
+  <hr>
+  <%=f.input :is_enabled, :label => 'Active Project' %>
+  

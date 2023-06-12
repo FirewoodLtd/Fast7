@@ -1,0 +1,12 @@
+<% content_for :table_head do %>
+  <th>Name</th>
+  <th>Type</th>
+  <th></th>
+  <th>Last Review Completed</th>
+<% end %>
+
+<%= render 'layouts/crud/index',
+items: @projects,
+items_class: Project,
+hide_new: current_user.customer.projects.count >= current_user.customer.max_projects
+%>

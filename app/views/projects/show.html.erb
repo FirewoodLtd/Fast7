@@ -1,0 +1,11 @@
+<% content_for :body do %>
+   <%= render 'body' %>
+<% end %>
+
+<% content_for :subtitle do %>
+<%= @project.description[0,100] %>
+<% end %>
+
+
+
+<%= render 'layouts/crud/show', item: @project %>

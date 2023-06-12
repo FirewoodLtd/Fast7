@@ -1,0 +1,49 @@
+<% container_id = "container_#{rand()}" %>
+<div id="<%=container_id%>"></div>
+
+<script>
+Highcharts.chart('<%=container_id%>', {
+          
+    chart: {
+        type: 'funnel'
+    },
+    title: {
+        text: 'Sales funnel'
+    },
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b> ({point.y:,.0f})',
+                softConnector: true
+            },
+            center: ['40%', '50%'],
+            neckWidth: '30%',
+            neckHeight: '25%',
+            width: '80%'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    series: <%= raw data.to_json %>,
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            inside: true
+                        },
+                        center: ['50%', '50%'],
+                        width: '100%'
+                    }
+                }
+            }
+        }]
+    }
+});
+</script>

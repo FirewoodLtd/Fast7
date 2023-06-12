@@ -1,0 +1,82 @@
+
+<% container_id = "container_#{rand()}" %>
+
+
+<div id="<%=container_id%>"></div>
+
+
+<script>
+Highcharts.chart('<%=container_id%>', {
+            chart: {
+                alignTicks: false,
+                type: 'column'
+            },                
+            title: {
+                text: '<%= title %>'
+            },
+            xAxis: {
+              type: 'datetime',
+              ordinal:false,
+              labels: {
+                format: '{value:%b-%e}'
+              },             
+                title: {
+                    text: '<%= x_title %>'
+                },     
+                crosshair: true
+            },
+            
+            yAxis: [{
+                title: {
+                    text: '<%= y_title %>'
+                },
+                crosshair: true
+            },
+            {
+                title: {
+                    text: '',
+                },
+                gridLineWidth: 0,
+                opposite: false,
+                min: 0,
+                minPadding: 3,
+                maxPadding: 3,
+                visible:false
+                
+            }],
+            
+            legend: {enabled: false},
+            exporting: {enabled: false},
+            credits: {enabled: false},
+        
+            plotOptions: {
+                series: {
+                  animation: false,
+                  color: '#58aecc',
+                  turboThreshold:0,
+                  dataLabels: {
+                     enabled: false
+                  },
+                  tooltip: {
+                        headerFormat: '',
+                        pointFormat: '<b>Value:</b> {point.y:.2f}<br><b>Event Time:</b> {point.eventTime}'
+                    }                      
+                }
+            },
+        
+            series: [{
+                label: {
+                    enabled: false
+                }, 
+                data:[
+                  <% data.each do |m| %>
+                     {
+                       x:Date.UTC(<%=m[0].year%>, <%=m[0].month-1%>, <%=m[0].day%>, <%=m[0].hour%>, <%=m[0].min%>, <%=m[0].sec%>),
+                       y:<%=m[1]%>,
+                       eventTime:'<%=m[2]%>'
+                     },
+                  <% end %>
+                 ]
+            }]
+        });
+</script>

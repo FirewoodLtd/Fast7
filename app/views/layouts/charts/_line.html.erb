@@ -1,0 +1,49 @@
+<% container_id = "container_#{rand()}" %>
+<div id="<%=container_id%>"></div>
+
+<script>
+Highcharts.chart('<%=container_id%>', {
+ chart: {
+    type: 'spline'
+  },
+  title: {
+    text: ''
+  },
+  subtitle: {
+    text: ''
+  },
+  xAxis: {
+    type: 'datetime',
+    title: {
+      text: 'SEnd Date'
+    }
+  },
+  yAxis: {
+    title: {
+      text: 'Score'
+    },
+    min: 0
+  },
+  tooltip: {
+    headerFormat: '<b>{series.name}</b><br>',
+    pointFormat: 'Date: {point.x:%Y-%m-%d} <br> Score: {point.y:.1f}'
+  },
+  plotOptions: {
+    series: {
+      marker: { 
+        symbol: 'circle',
+        radius: 8
+      },
+      point: {
+          events: {
+              click: function () {
+                  location.href = this.options.url
+              }
+          }
+      }      
+    }
+  },
+  series: <%= raw data.to_json %>
+});
+</script>
+

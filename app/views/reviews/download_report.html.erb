@@ -1,0 +1,206 @@
+<div class='jumbotron py-2'>
+<table width='100%'>
+    <tr>
+        <td>
+            <h2><small>Assurance Report for</small> <%=@review.project.name%> <%=@review.stop_date.strftime("%F") unless @review.stop_date.nil?%></h2>            
+        </td>
+        <td>
+            <h2><%=@review.project.customer.name%></h2>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Reviewer:
+        </td>
+        <td>
+            <strong><%=@review.lead_firewood_user.name unless @review.lead_firewood_user.nil? %></strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Assurance Manager:
+        </td>
+        <td>
+            <strong><%=@review.lead_customer_user.name unless @review.lead_customer_user.nil?%></strong>                        
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Review rating:
+        </td>
+        <td style= <%="background-color:#{@review.get_score_range.color} !important;"%>>
+            <h6 class='py-2'><%=@review.score.name%>: <b><%=@review.get_score_range.name %></b> - <%=@review.overall_score%></h6> 
+        </td>
+    </tr>
+</table>
+</div>
+
+<h2>1. EXECUTIVE SUMMARY</h2>
+<%=@review.summary.html_safe unless @review.summary.nil?%>
+<br>
+
+
+<div class='row'>
+    <div class ='col-sm-12 col-md-6'>
+        <iframe frameborder=0 width="800" height="300" src="https://analytics.zoho.eu/open-view/100515000000009813?ZOHO_CRITERIA=%22reviews%22.%22id%22%3D<%=@review.id%>"></iframe>
+    </div>
+    <div class ='col-sm-12 col-md-6'>
+        <iframe frameborder=0 width="800" height="300" src="https://analytics.zoho.eu/open-view/100515000000042959?ZOHO_CRITERIA=%22reviews%22.%22id%22%3D<%=@review.id%>"></iframe>
+    </div>
+</div>
+
+<hr>
+<h2>2.FINDINGS AND RECOMMENDATIONS</h2>
+The following details our findings and recommendations based on the agreed lines of enquiry.
+
+<table class='table'>
+    <thead>
+        <th>#</th>
+        <th>Ref</th>
+        <th>Description</th>
+        <th>Positive Evidence</th>
+        <th>Areas of Concern</th>
+        <th>Implication</th>
+        <th>Recommendation</th>
+        <th>Priority</th>
+    </thead>
+   <tbody>
+    <%num=0%>
+   <% @review.findings.includes(:status_type).order("status_types.name asc").each do |f| %>
+   <%num+=1%>
+      <tr>
+          <td>2.<%=num%></td>
+         <td><%=f.measure.code%></td> 
+         <td><%=f.description%></td>
+         <td><%=f.evidence%></td>
+         <td><%=f.concern%></td>
+         <td><%=f.implication%></td>
+         <td><%=f.recommendation%></td>
+         <td><%=f.status_type.name unless f.user.nil?%></td>
+      </tr>
+   <% end %>
+   </tbody>
+</table> 
+
+
+
+<hr>
+<h2>3. ACTION PLAN</h2>
+<p>
+The following table sets out the Review Teams recommendations which are prioritised using the definitions below. 
+The table also includes the action plan which has been produced by CLIENT NAME to address the findings and recommendations made in this report:
+</p>
+<table class='table'>
+    <thead>
+        <th>#</th>
+        <th>Ref</th>
+        <th>Name</th>
+        <th>Priority</th>
+        <th>Owner</th>
+        <th>Date</th>
+    </thead>
+   <tbody>
+       <%num=0%>
+   <% @review.action_items.joins(finding: :status_type).order("status_types.name asc").each do |a| %>
+      <%num+=1%>
+      <tr>
+        <% a.description="No Description" if a.description.length == 0 %>
+        <td>3.<%=num%></td>
+        <td><%= a.finding.measure.code %></td>
+        <td><%= a.description %></td>
+        <td><%= a.finding.status_type.name %></td>
+        <td><%= a.user.name %></td>
+        <td><%= a.status %></td>
+        <td><%= a.due_date.strftime("%B %e, %Y") unless a.due_date.nil? %></td>
+      </tr>
+   <% end %>
+   </tbody>
+</table> 
+
+<div class='jumbotron py-2'>
+<h5>Definitions</h5>
+<hr>
+<dl>
+    <dt>Critical (do now) </dt>
+    <dd>To increase the likelihood of a successful outcome it is of the greatest importance that the programme should take action immediately</dd>
+    
+    <dt>Essential (do by)</dt>
+    <dd>To increase the likelihood of a successful outcome the programme should take action in the near future</dd>
+    
+    <dt>Recommended</dt>
+    <dd>The programme should benefit from the uptake of this recommendation.</dd>
+</dl>
+</div>
+	
+
+<hr>
+<h2>4. ABOUT THE REVIEW</h2>
+
+<h3>Scope</h3>
+<%=@review.scope.html_safe unless @review.scope.nil? %>
+
+<h3>Context</h3>
+<%=@review.context.html_safe unless @review.context.nil? %>
+
+<h3>Objective</h3>
+<%=@review.enquiry.html_safe unless @review.enquiry.nil?%>
+
+<hr>
+
+<h2>ANNEX A – DOCUMENTATION</h2>
+The team reviewed the following documentation: 
+
+<table class='table'>
+    <thead>
+        <th>Document Type</th>
+        <th>Description</th>
+        <th>URL</th>
+    </thead>
+   <tbody>
+   <% @review.documents.each.each do |d| %>
+      <tr>
+         <td><%=d.document_type.name%></td> 
+         <td><%=d.name%></td>
+         <td><%=d.url%></td>
+      </tr>
+   <% end %>
+   </tbody>
+</table> 
+
+<hr>
+<h2>ANNEX B – INTERVIEWEES</h2>
+We interviewed the following people:
+
+<table class='table'>
+    <thead>
+        <th>Occupation</th>
+        <th>Participants</th>
+        <th>Date</th>
+    </thead>
+   <tbody>
+   <% @review.interviews.each.each do |i| %>
+      <tr>
+         <td><%=i.occupation_type.name%></td> 
+         <td><%=i.participants%></td>
+         <td><%=i.interview_date %></td>
+      </tr>
+   <% end %>
+   </tbody>
+</table> 
+
+
+<hr>
+<h2>ANNEX C- SCORING METHOD</h2>
+
+<h5><%=@review.score.name %></h5>
+<table>
+   <tbody>
+   <% @review.score.score_ranges.each do |c| %>
+      <tr>
+         <td width="50px;" style= <%="background-color:#{c.color} !important" %> ></td>
+         <td width="150px;"><%=c.name%></td>
+         <td><%=c.min%> to <%=c.max%></td>
+      </tr>
+   <% end %>
+   </tbody>
+</table> 

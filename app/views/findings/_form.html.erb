@@ -1,0 +1,46 @@
+<% unless @finding.review_measure.nil?%>
+
+    <%= f.association :review_measure, :as => :collection_select, collection: @finding.review_measure.review.review_measures.sort_by(&:name), :label_method => lambda { |m| "#{m.measure.category.path_name}/#{m.name}"} %>
+    
+    
+  <div class="row">
+    <div class="col col-md-2">
+    <%= f.association :status_type, :label => 'Status', :as => :collection_select, collection: StatusType.order(:name) %>
+    </div>
+    <div class="col">
+    <%= f.input :description %>
+    </div>
+  </div>   
+  
+  <hr>    
+  
+  <div class="row">
+    <div class="col">
+    <%= f.input :evidence, :label => 'Positive evidence' %>  
+    </div>
+    <div class="col">
+    <%= f.input :concern, :label => 'Area(s) of concern' %>  
+    </div>
+    <div class="col">
+    <%= f.input :implication %>  
+    </div>
+    <div class="col">
+    <%= f.input :recommendation %>
+    </div>    
+  </div>    
+    
+  <hr>
+    
+  <div class="row">
+    <div class="col col-md-2">
+        <%= f.association :user, :label => 'Owner', :as => :collection_select, collection: current_user.customer.users.where(:is_enabled => true).order(:last_name) %>
+        <%= f.input :is_agreed, :label => 'Agreement this is a valid Finding'%>
+    </div>
+  </div>        
+  
+    
+<% else %>
+    <h2>Please add at least 1 measure to this review to create a Finding</h2>
+    <%= link_to 'New Review Measure', new_review_measure_path, :class => 'btn btn-outline-success' %>
+
+<%end%>

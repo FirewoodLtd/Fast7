@@ -1,0 +1,10 @@
+<dl>
+<dt>Name</dt>
+<dd><%=@action_item.name%></dd>
+</dl>
+
+<h3>Notes</h3>
+<hr>
+<div>
+<%=@action_item.comments.html_safe unless @action_item.comments.nil?%>    
+</div>

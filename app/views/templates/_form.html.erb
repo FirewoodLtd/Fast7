@@ -1,0 +1,44 @@
+<div class= 'row'>
+   <div class ='col col-md-2'>
+      <%= f.input :name %>      
+   </div>
+   <div class ='col'>
+      <%= f.input :description, :as => :text, :input_html => { 'rows' => 1 } %>
+   </div>
+</div>
+
+<hr>
+
+<% unless @template.id.nil? %>
+ <h5>Measures</h5>
+ <%= form_tag template_measures_path, method: :post do %>
+   <div class="form-group mb-2">
+      <%= hidden_field_tag :template_id, @template.id %>
+      <table class ='table table-sm table-striped table-data'>
+         <thead>
+            <th></th>
+            <th>Framework</th>
+            <th>Category</th>
+            <th>Measure</th>
+         </thead>
+         <tbody>
+            <%= collection_check_boxes :template, :measure_ids, @measures, :id, :name do |b| %>
+               <tr>
+                  <td><%= b.check_box %></td>
+                  <td><%= b.object.category.root.name %></td>
+                  <td><%= b.object.category.path_name %></td>
+                  <td><%= b.label :class => 'form-check-label' %></td>
+               </tr>
+            <% end %>
+         </tbody>
+        </table>
+   </div>
+ <% end %>  
+<% end %>  
+
+
+<script>
+$('.table-data').dataTable({
+    paging: false
+});
+</script>

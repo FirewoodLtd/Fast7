@@ -1,0 +1,54 @@
+<dl>
+  
+  <dt>Associated Measure</dt>
+  <dd><%=link_to @finding.review_measure.name, @finding.review_measure %></dd>
+
+  <dt>Description</dt>
+  <dd><%=@finding.description%></dd>
+
+  <div class="row">
+    <div class="col">
+      <dt>Evidence</dt>
+      <dd><%=@finding.evidence %></dd>
+    </div>
+    <div class="col">
+      <dt>Concern</dt>
+      <dd><%=@finding.concern %></dd>
+    </div>
+    <div class="col">
+      <dt>Implication</dt>
+      <dd><%=@finding.implication %></dd>
+    </div>
+    <div class="col">
+      <dt>Recommendation</dt>
+      <dd><%=@finding.recommendation %></dd>
+    </div>    
+  </div>    
+
+</dl>
+
+
+<% if @finding.action_items.count > 0 %>
+<hr>
+<h5>Action Items</h5>
+<table class='table table-condensed'>
+  <thead>
+    <th>User</th>
+    <th>Due Date</th>
+    <th>Status</th>
+  </thead>
+  <tbody>
+    <% @finding.action_items.each do |item| %>
+    <tr>
+      <td><%=link_to  item.description, edit_action_item_path(item) %></td>
+      <td><%= item.due_date.strftime('%B %d, %Y') unless item.due_date.nil? %></td>
+      <td><%= item.status %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>    
+
+<% unless @finding.id.nil? %>
+<%= link_to 'Add Action Item', new_action_item_path(:finding_id => @finding), :class => 'btn btn-outline-success btn-sm' %>    
+<% end %>

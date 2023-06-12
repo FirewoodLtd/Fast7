@@ -1,0 +1,9 @@
+<% content_for :table_head do %>
+    <th>Category</th>
+    <th>Measure</th>
+<% end %>
+
+<%= render 'layouts/crud/index', 
+items: @measures,
+items_class: Measure
+%>

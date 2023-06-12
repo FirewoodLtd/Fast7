@@ -1,0 +1,4 @@
+<td><%= item.occupation_type.name %></td>
+<td><%= item.participants %></td>
+<td><%= item.interview_date.strftime("%B %e, %Y %I:%M %p") unless item.interview_date.nil? %></td>
+<td><%= item.user.name unless item.user.nil? %></td>

@@ -1,0 +1,8 @@
+<% content_for :breadcrumbs do %>
+   <%= render 'breadcrumb' %>
+<% end %>
+
+<%= render 'layouts/crud/edit', 
+item: @template,
+title: @template.name
+%>

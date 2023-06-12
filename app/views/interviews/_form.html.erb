@@ -1,0 +1,13 @@
+<%= f.association :review, :as => :collection_select, collection: current_user.customer.reviews, input_html: { class: "col-md-2"} %>
+<%= f.association :occupation_type, input_html: { class: "col-md-2"} %>
+
+<%= f.association :user, :label => 'Assigned Owner', :as => :collection_select, collection: current_user.customer.users.where(:is_enabled => true).order(:last_name), input_html: { class: "col-md-2"} %>
+<%= f.input :participants %>
+
+<%= f.input :interview_date, as: :date, html5: true, input_html: { class: "col-md-2"} %>
+
+<%= f.text_area :notes, :class => "tinymce"%>
+
+<hr>
+
+<%= f.input :is_enabled, :label => 'Interview Pending', :hint => 'Uncheck this box once the interview has been completed' %>

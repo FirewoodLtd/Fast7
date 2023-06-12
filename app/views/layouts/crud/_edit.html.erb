@@ -1,0 +1,49 @@
+<% icon = item.class.icon if item.class.respond_to?(:icon) && icon.nil? %>
+<% icon ='cube' if icon.nil? %>
+
+<% title = item.name  if title.nil? && item.respond_to?(:name) %>
+<% title = item.class.name.split('::').last.underscore.humanize.titleize if title.nil? %>
+
+<%= yield :breadcrumbs %>
+
+<%= simple_form_for item do |f| %>
+
+<%= f.error_notification %>
+<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+<div class="card ">
+<div class="card-header bg-warning" >
+  
+  <span class ='pull-right'>
+    <% unless item.class.name.split('::').last.underscore.humanize.titleize == title %>
+      <kbd><%=item.class.name.split('::').last.underscore.humanize.titleize%></kbd>
+    <% end %>    
+    <%if can? :manage, :all %>
+      <kbd><%=item.id %></kbd>
+    <% end %>    
+  </span>  
+  
+  <h2 class="card-title">
+    <%= fa_icon icon %>  
+    <%= title  %>
+  </h2>
+  <h6 class="card-subtitle text-muted"><%= yield :subtitle %></h6>
+</div>
+
+<div class="card-body">
+    <%= render 'form', f:f %>
+</div>
+
+<div class="card-footer">
+    <%= f.button :submit, "Update #{item.class.name.split('::').last.underscore.titleize}", :class => 'btn btn-warning' %>
+    
+    <%= link_to url_for(action: :index, :controller => item.class.name.split('::').last.underscore.pluralize), :class => 'btn btn-outline-info' do %>
+      Cancel
+    <% end %>            
+         
+    <%= link_to item,  method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-outline-danger pull-right' do %>
+        <%= fa_icon 'trash' %> Delete
+    <% end %>
+    
+</div>
+<% end %>

@@ -1,0 +1,14 @@
+<h2>Lessons Learned</h2>
+
+<table class='table'>
+    <tbody>
+<% @review.project.reviews.each do |r| %>
+    <tr>
+        <td><%=link_to(r.stop_date.strftime('%B %d, %Y'), r) unless r.stop_date.nil?%></td>
+        <td><%=r.notes.html_safe || 'No notes captured' unless r.notes.nil?%></td>    
+    </tr>
+<% end %>            
+    </tbody>
+
+</table>
+

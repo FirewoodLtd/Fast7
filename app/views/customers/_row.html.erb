@@ -1,0 +1,6 @@
+<td><span class='badge bg-dark'><%=item.tier%></span></td>
+<td><%= link_to 'Join', join_customer_path(item), method: :put, :class => 'btn btn-outline-primary btn-sm'%> <%=item.name %></td>
+<td><%=item.contact_main_name %></td>
+<td><%=item.industries.join(",")%></td>
+<td><%=item.projects.count%></td>
+<td><%=item.reviews.count%></td>

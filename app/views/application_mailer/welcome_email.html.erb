@@ -1,0 +1,18 @@
+
+<h2>Welcome <%= @user.first_name %>,</h2>
+<p>You have successfully been added to Firewood's Assurance Service Tool (FAST) for <b><%= @user.customer.name %></b></p>
+
+<p>Your role is: <b><%= @user.role.name.titleize %></b></p>
+  
+<p>Your username is: <%=@user.email %></p>
+
+<h2>
+  <%=link_to "Set my password and login", @url %>
+</h2>
+
+<hr>
+
+<div class="image" >
+  <%= image_tag('https://fast-logos.s3.eu-west-2.amazonaws.com/fast_logo.png', width: '125') %>
+</div>
+
