@@ -1,0 +1,33 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  port: 5432
+  database: firewood
+
+development:
+  <<: *default
+  host: firewood-dev.chhpyevohsng.eu-west-2.rds.amazonaws.com
+  username: firewood
+  password: firewood123
+  
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  host: localhost
+  username: development
+  password: development
+
+production:
+  <<: *default
+  #host: <%= ENV['RDS_HOSTNAME'] %>
+  #username: <%= ENV['RDS_USERNAME'] %>
+  #password: <%= ENV['RDS_PASSWORD'] %>
+  
+  host: firewood-dev.chhpyevohsng.eu-west-2.rds.amazonaws.com
+  username: firewood
+  password: firewood123
